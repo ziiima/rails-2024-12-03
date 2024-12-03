@@ -1,0 +1,27 @@
+services:
+  rails_contaner:
+    container_name: workspace_rails_container
+    build:
+      context: .
+      dockerfile: tmp.ruby.dockerfile
+      args:
+        - RUBY_VERSION=3.3
+        - WORKDIR=/workspace/app
+    tty: true
+    volumes:
+      - ..:/workspace/app
+    restart: on-failure:3
+  mysql_container:
+    container_name: workspace_mysql_container
+    build:
+      context: .
+      dockerfile: mysql.tmp.dockerfile
+      args:
+        - MYSQL_VERSION=8.4
+    tty: true
+    restart: on-failure:3
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data: {}
